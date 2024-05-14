@@ -29,7 +29,7 @@
     const eventoClick = (e) =>{
         if(e.target.matches("#crearBtn")){
             const lista = d.getElementById("lista");
-            let texto = (d.getElementById("texto")).value;
+            let texto = (d.getElementById("texto")).value.trim();
 
             if (isNaN(texto)){
                 let li=d.createElement("li");
@@ -42,6 +42,8 @@
             else {
                 alert("Valor numérico introducido");
             }
+           // d.getElementById("formulario").reset();
+            d.getElementById("texto").focus();
         }
         if(e.target.matches("li")){
             const lista = d.getElementById("lista");
@@ -64,6 +66,7 @@
         li.style.backgroundColor = "rgb(" + random() + "," + random() + "," + random() + ")";
         li.style.color ="white";
         li.style.textDecoration="line-through";
+        li.style.fontSize="20px";
     }
 
 </script>
