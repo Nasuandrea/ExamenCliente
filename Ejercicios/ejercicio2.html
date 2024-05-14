@@ -40,5 +40,132 @@
 
 </div>
 
-<script src="ejercicio2Mio.js"></script>
+<script >
+//Declarar un array de objetos de clientes
+const datosClientes = [
+    { id: 1, email: "michael.lawson@reqres.in", first_name: "Michael", last_name: "Lawson" },
+    { id: 2, email: "lindsay.ferguson@reqres.in", first_name: "Lindsay", last_name: "Ferguson" },
+    { id: 3, email: "tobias.funke@reqres.in", first_name: "Tobias", last_name: "Funke" },
+    { id: 4, email: "byron.fields@reqres.in", first_name: "Byron", last_name: "Fields" }
+];
+// Array de objetos pizzas
+const datosPizza = [
+    { nombre: "Pizza margarita", precio: 20, identificador: 1, ingredientes: ["Champiñones", "Jamón Cocido"] },
+    { nombre: "Pizza barbacoa", precio: 25, identificador: 2, ingredientes: ["Carne", "Salsa barbacoa", "Extra de queso"] },
+    { nombre: "Pizza atún", precio: 22, identificador: 3, ingredientes: ["Atún", "Aceitunas negras", "Anchoa"] }
+];
+//Apartado 1 El usuario introduce un identificador de cliente con prompt.
+const idIntroducido = parseInt(prompt("Introduce el id de cliente"));
+//almacenamos en una variable UN objeto cliente/pizza que coincida con el id introducido
+const clienteEncontrado = datosClientes.find((cliente)=>cliente.id==idIntroducido);
+const pizzaEncontrada =  datosPizza.find((pizza)=>pizza.identificador==idIntroducido);
+
+
+const divCliente = document.getElementById("cliente");
+const divIngredientes = document.getElementById("ingredientes");
+const divPizza = document.getElementById("pizzas");
+
+document.addEventListener("DOMContentLoaded",ev => {
+
+//Apartado 1 
+//Recorre el array de clientes.  --> esto lo hacemos en la variable clienteEncontrado
+//Si lo encuentra muestra el nombre creando un nodo de tipo H1,con su nombre. 
+//Debes crear una función para mostrar los datos del cliente.
+//En caso de que no lo encuentre muestra un alert.
+const mostrarDatosCliente = () =>{
+
+    if(clienteEncontrado){
+      const nombre = clienteEncontrado.first_name +" "+clienteEncontrado.last_name;
+      const h1= document.createElement("h1");
+      h1.innerHTML= nombre;
+      divCliente.appendChild(h1);
+    }
+    else{
+        alert("Cliente no encontrado");
+    }
+}
+
+//llamamos a la funcion para mostrar el nombre del cliente en un h1
+mostrarDatosCliente();
+
+//Apartado 3 Utilizando el mismo identificador del cliente, busca la pizza cuyo identificador
+//sea igual al identificador del cliente. Si lo encuentra muestra los ingredientes de la pizza,
+//creando la estructura de nodos para que tenga el siguiente aspecto.
+const mostrarIngredientesPizza = ()=>{
+    if(pizzaEncontrada){
+        const nombre =  pizzaEncontrada.nombre;
+        const ingredientes = pizzaEncontrada.ingredientes;
+        const linea= document.createElement("h1");
+        linea.innerHTML= "Los ingredientes de la "+nombre+" son:";
+        divIngredientes.appendChild(linea);
+        ingredientes.forEach(ingrediente => {
+            const parrafo = document.createElement("h2");
+            parrafo.innerHTML = ingrediente;
+            divIngredientes.appendChild(parrafo);
+        });
+    }
+    else{
+        alert("Pizza no encontrada");
+    }
+    crearBotonComprar();
+}
+//Apartado 7: Al cargar los ingredientes de la pizza que el resultado se muestre transcurrido unos segundos.
+setTimeout(() => {mostrarIngredientesPizza();} , 2000); //setTimeout("mostrarIngredientesPizza()",2000);
+
+//Apartado 2: Recorrer el array de artículos y mostrar los datos en formato tabla. 
+//Debe resolverse en una función. 
+//Los nodos (table, td, tr), deben crearse utilizando los métodos específicos de la estructura DOM.
+const mostrarTablaDatosPizza = ()=>{
+//Creamos la tabla y el encabezado
+    const table = document.createElement("table");
+    const encabezado = document.createElement("tr");//Creamos una nueva fila para el encabezado
+    const thNombre = document.createElement("th");//Creamos una nueva celda para "nombre"
+    const thPrecio = document.createElement("th");//Creamos una nueva celda para "precio"
+//Metemos en las celdas el texto correspondiente
+    thNombre.textContent="NOMBRE";
+    thPrecio.textContent="PRECIO";
+//Metemos el encabezado en la tabla
+    encabezado.appendChild(thNombre);
+    encabezado.appendChild(thPrecio);
+    table.appendChild(encabezado);
+//Recorremos el array de artículos y creamos las filas de la tabla con el nombre y el precio de cada uno
+    datosPizza.forEach(pizza =>{
+        const tr = document.createElement("tr"); //Creamos una nueva fila
+        const tdNombre = document.createElement("td"); //Creamos una nueva celda para el nombre
+        const tdPrecio = document.createElement("td");//Creamos una nueva celda para el precio
+//Metemos en las celdas el texto correspondiente
+        tdNombre.textContent= pizza.nombre;
+        tdPrecio.textContent = pizza.precio + "€";
+//Metemos las celdas en la fila
+        tr.appendChild(tdNombre);
+        tr.appendChild(tdPrecio);
+        table.appendChild(tr);
+    })
+    //Metemos la tabla en el div
+    divPizza.appendChild(table);
+}
+mostrarTablaDatosPizza();
+
+//Apartado 4
+const crearBotonComprar=()=>{
+    const boton = document.createElement("button");
+    boton.textContent = "Comprar";
+    divIngredientes.appendChild(boton);
+    //Apartado 5
+    boton.addEventListener("click",() =>{
+        comprarPizza(pizzaEncontrada);
+    });
+}
+
+//Apartado 5
+// Función para almacenar en el LocalStorage al hacer clic en el botón Comprar
+const comprarPizza = () =>{
+    localStorage.setItem(idIntroducido,JSON.stringify(pizzaEncontrada));
+    console.log("pizza almacenada en carrito");
+}
+//Apartado 6 : Utilizar find, funciones flecha, o/y map, declaración correcta de variables, etc.
+})
+
+
+</script>
 </body>

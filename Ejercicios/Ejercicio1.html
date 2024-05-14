@@ -16,6 +16,73 @@
 </ul>
 
 </body>
-<script src = "ejercicio1Mio.js"></script>
+<script>
 
+    const d = document;
+    const lista = d.getElementById("lista");
+    d.addEventListener("DOMContentLoaded",e => {
+
+        d.addEventListener("click", eventoClick);
+
+        d.addEventListener("contextmenu", eventoClickDerecho);
+    })
+
+    const eventoClick = (e) =>{
+        //Apartado 1
+        //al pulsal el boton crear
+        if(e.target.matches("#crearBtn")){
+            
+            let texto = (d.getElementById("texto")).value.trim();
+        //comprueba si no es numerico crea un elemento li y lo inserta en la lista
+            if (isNaN(texto)){
+                let li=d.createElement("li");
+                li.innerHTML=texto;
+                lista.appendChild(li);
+            }
+            //comprueba si el cuadro de texto esta vacio
+            else if(texto === ""){
+                alert ("Introducir un valor en cuadro de texto");
+            }
+            //comprueba si el valor introducido es numerico
+            else {
+                alert("Valor numérico introducido");
+            }
+            //Limpiamos el cuadro de texto
+            d.getElementById("texto").value="";
+           // d.getElementById("formulario").reset();
+
+           //Volvemos el foco en el cuadro de texto
+            d.getElementById("texto").focus();
+        }
+        //Apartado 3 al hacer click izquierdo sobre cada elemento de la lista (li) lo elimina
+        if(e.target.matches("li")){
+            let li=e.target;
+            lista.removeChild(li);
+        }
+    }
+    //Apartado 2: al hacer click derecho sobre cada elemento de lista modifica el aspecto
+    const eventoClickDerecho = (e) =>{
+        //Quitamos el comportamiento por defecto del click derecho del ratón
+        e.preventDefault();
+
+        //Si el elemento clicado es un <li> llamar a la funcion modificarAspecto
+        if (e.target.matches("li")){
+            let li =e.target;
+            modificarAspecto(li);
+        }
+    }
+    const random =()=>{
+       return Math.round(Math.random()*255);
+    }
+    //El color de fondo se debe generar a través de un color aleatorio
+    function modificarAspecto(li){
+        //la llamada a la funcion random 3 veces es para que se creen 3 números distintos: uno para rojo, otro para verde, otro para azul
+        li.style.backgroundColor = "rgb(" + random() + "," + random() + "," + random() + ")";
+        li.style.color ="white";
+        li.style.textDecoration="line-through";
+        li.style.fontSize="20px";
+    }
+
+</script>
 </html>
+
